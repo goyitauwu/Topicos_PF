@@ -6,6 +6,7 @@ import { IBasicSettings } from '../@types/settings';
 import { makeAllMenus } from '../lib/menu';
 import { IProduct } from 'boundless-api-client';
 import { IMenuItem } from '../@types/components';
+import Link from 'next/link';
 
 import {
   Card,
@@ -17,6 +18,7 @@ import {
   Checkbox,
   Container,
 } from '@nextui-org/react';
+import { Col, Stack } from 'react-bootstrap';
 
 export default function Login({ products, mainMenu, footerMenu, basicSettings }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
@@ -63,14 +65,46 @@ export default function Login({ products, mainMenu, footerMenu, basicSettings }:
               <Text size={14}>Forgot password?</Text>
             </Row>
             <Spacer y={1} />
-            <Button>Sign in</Button>
+
+            <Button>
+              Sign in
+            </Button>
+
+            <Text
+              size={12}
+              weight="bold"
+              css={{
+                as: 'center',
+                mb: '20px',
+                marginTop: '20px',
+              }}
+            >
+              -----Or-----
+            </Text>
+
+            <Container
+              display="flex"
+              alignItems="center"
+              justify="center"
+            >
+              <Link href="/register">
+                <a>
+                  <Button
+                    css={{
+                      mb: '20px',
+                    }}
+                  >
+                    Sign up
+                  </Button>
+                </a>
+              </Link>
+            </Container>
           </Card>
         </Container>
       </div>
     </MainLayout>
   );
 }
-
 
 export const getServerSideProps: GetServerSideProps<IIndexPageProps> = async () => {
   const categoryTree = await apiClient.catalog.getCategoryTree({ menu: 'category' });
