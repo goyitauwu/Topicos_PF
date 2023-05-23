@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import {useCart} from '../../hooks/cart';
+import { useCart } from '../../hooks/cart';
 import clsx from 'clsx';
 import useFormatCurrency from '../../hooks/useFormatCurrency';
 
-export default function HeaderCart({className}: {className?: string}) {
-	const {total} = useCart();
-	const {formatCurrency} = useFormatCurrency();
+export default function HeaderCart({ className }: { className?: string }) {
+	const { total } = useCart();
+	const { formatCurrency } = useFormatCurrency();
 	const isEmpty = !total || !total.qty;
 	const isDoubleQty = (total?.qty && total?.qty > 9) ? true : false;
 

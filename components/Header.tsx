@@ -1,17 +1,22 @@
-import {MouseEvent} from 'react';
+import { MouseEvent } from 'react';
 import Link from 'next/link';
 import HeaderCart from './cart/HeaderCart';
 import ChooseVariantModal from './header/ChooseVariantModal';
 import logoImg from '../assets/logo.svg';
-import {faBars} from '@fortawesome/free-solid-svg-icons/faBars';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useAppDispatch} from '../hooks/redux';
-import {setIsOpened} from '../redux/reducers/asideMenu';
+import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAppDispatch } from '../hooks/redux';
+import { setIsOpened } from '../redux/reducers/asideMenu';
+import HeaderLogin from './login/HeaderLogin';
 
-export default function Header({companyTitle}: {companyTitle?: string}) {
+export default function Header({ companyTitle }: { companyTitle?: string }) {
 	const dispatch = useAppDispatch();
 
 	const onHamburgerBtnClicked = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		dispatch(setIsOpened(true));
+	};
+	const login = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		dispatch(setIsOpened(true));
 	};
@@ -30,10 +35,18 @@ export default function Header({companyTitle}: {companyTitle?: string}) {
 						</Link>
 					</div>
 					<div className={'page-header__right-blocks'}>
+						<HeaderLogin />
+						<button type={'button'}
+							className={'btn'}
+							onClick={login}
+						>
+						</button>
+					</div>
+					<div className={'page-header__right-blocks'}>
 						<HeaderCart />
 						<button type={'button'}
-										className={'btn btn-outline-secondary page-header__hamburger'}
-										onClick={onHamburgerBtnClicked}
+							className={'btn btn-outline-secondary page-header__hamburger'}
+							onClick={onHamburgerBtnClicked}
 						>
 							<FontAwesomeIcon icon={faBars} />
 						</button>
