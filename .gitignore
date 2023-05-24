@@ -32,3 +32,9 @@ yarn-error.log*
 
 /.idea/
 /.build-lock
+
+
+# dependencies
+package-lock.json
+yarn.lock
+package.json
