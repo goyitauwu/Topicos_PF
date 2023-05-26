@@ -30,7 +30,7 @@
   "include": [
     "./**/*.ts",
     "./**/*.tsx"
-  ],
+, "lib/mongodb.js", "pages/api/register.js"  ],
   "exclude": [
     "node_modules"
   ]
