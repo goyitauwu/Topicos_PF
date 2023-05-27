@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch } from '../hooks/redux';
 import { setIsOpened } from '../redux/reducers/asideMenu';
 import HeaderLogin from './login/HeaderLogin';
+import HeaderLogout from './login/HeaderLogout';
 
 export default function Header({ companyTitle }: { companyTitle?: string }) {
 	const dispatch = useAppDispatch();
@@ -20,13 +21,19 @@ export default function Header({ companyTitle }: { companyTitle?: string }) {
 		e.preventDefault();
 		dispatch(setIsOpened(true));
 	};
+	const logout = (e: MouseEvent<HTMLButtonElement>) => {
+		localStorage.removeItem('email');
+	};
 
 	const title = companyTitle || 'Your Company LLC.';
 
 	return (
 		<header className='page-header'>
 			<div className='container'>
-				<div className='page-header__content'>
+				<div className='page-header__content'	>
+					<div className={'page-header__right-blocks'}>
+						<HeaderLogin />login
+					</div>
 					<div className='page-header__logo'>
 						<Link href='/'>
 							<a>
@@ -35,20 +42,17 @@ export default function Header({ companyTitle }: { companyTitle?: string }) {
 						</Link>
 					</div>
 					<div className={'page-header__right-blocks'}>
-						<HeaderLogin />
-						<button type={'button'}
-							className={'btn'}
-							onClick={login}
-						>
-						</button>
-					</div>
-					<div className={'page-header__right-blocks'}>
 						<HeaderCart />
 						<button type={'button'}
 							className={'btn btn-outline-secondary page-header__hamburger'}
 							onClick={onHamburgerBtnClicked}
 						>
 							<FontAwesomeIcon icon={faBars} />
+						</button>
+					</div>
+					<div className={'page-header__right-blocks'}>
+						<button onClick={logout}>
+							<HeaderLogout />logout
 						</button>
 					</div>
 				</div>

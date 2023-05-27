@@ -23,16 +23,12 @@ import {
 import { Col, SSRProvider, Stack } from 'react-bootstrap';
 
 export default function Login({ products, mainMenu, footerMenu, basicSettings }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     remember: false
   });
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleChange = () => {
-    setIsChecked(formData.remember);
-  }
   const handleInputChange = (e: ChangeEvent<FormElement>) => {
     const { name, value } = e.target as HTMLInputElement;
     setFormData({
@@ -41,6 +37,8 @@ export default function Login({ products, mainMenu, footerMenu, basicSettings }:
     })
   };
   const handleSubmit = async (e: React.FormEvent) => {
+    localStorage.setItem('email', formData.email);
+    localStorage.setItem('jwt', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c')
     e.preventDefault();
     postData(formData);
   };
@@ -57,12 +55,15 @@ export default function Login({ products, mainMenu, footerMenu, basicSettings }:
       }).then(response => {
         if (response.status === 409) {
           document.getElementById('respuesta').innerHTML = "Password o Correo incorrecto";
-        } else if (response.status === 201) {
-          location.replace('https://i1224.my-boundless.app/');
         } else {
-          location.replace('http://localhost:3000/');
+          if (response.status === 201) {
+            location.replace('https://i1224.my-boundless.app/');
+          } else {
+            if (response.status === 200) {
+              location.replace('http://localhost:3000/');
+            }
+          }
         }
-
       })
     } catch (error) {
       console.log(error)

@@ -1,16 +1,16 @@
-import {ICartItem} from 'boundless-api-client';
-import {Dispatch, SetStateAction, useEffect, useMemo, useRef, useState} from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
-import {apiClient} from '../../lib/api';
-import {addPromise} from '../../redux/reducers/xhr';
-import {RootState} from '../../redux/store';
+import { ICartItem } from 'boundless-api-client';
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { apiClient } from '../../lib/api';
+import { addPromise } from '../../redux/reducers/xhr';
+import { RootState } from '../../redux/store';
 import debounce from 'lodash/debounce';
 import CartRow from './CartRow';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faShoppingCart} from '@fortawesome/free-solid-svg-icons/faShoppingCart';
-import {useRouter} from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons/faShoppingCart';
+import { useRouter } from 'next/router';
 
-export default function CartItems({items, setItems, total}: ICartItemsProps) {
+export default function CartItems({ items, setItems, total }: ICartItemsProps) {
 	const dispatch = useAppDispatch();
 	const submits = useRef<Promise<any>[]>([]);
 	const mounted = useRef(false);
@@ -38,7 +38,7 @@ export default function CartItems({items, setItems, total}: ICartItemsProps) {
 
 		setSubmitting(true);
 		const promise = apiClient.cart.removeFromCart(cartId, [itemId])
-		.then(() => checkBgSubmits());
+			.then(() => checkBgSubmits());
 
 		submits.current.push(promise);
 		dispatch(addPromise(promise));
@@ -58,7 +58,7 @@ export default function CartItems({items, setItems, total}: ICartItemsProps) {
 
 	const debouncedSubmitQty = useMemo(() =>
 		debounce(
-			(itemId: number, qty: number) => submitQty(itemId, qty), 700, {leading: true}
+			(itemId: number, qty: number) => submitQty(itemId, qty), 700, { leading: true }
 		), []);// eslint-disable-line
 
 	const onQtyChange = (itemId: number, newQty: number) => {
@@ -81,7 +81,13 @@ export default function CartItems({items, setItems, total}: ICartItemsProps) {
 			mounted.current = false;
 		};
 	}, []);
-
+	function logout() {
+		if (localStorage.getItem('email') == '') {
+			router.push('/login');
+		} else {
+			router.push('/checkout');
+		}
+	}
 	return (
 		<>
 			<div className='cart-items'>
@@ -127,5 +133,5 @@ export default function CartItems({items, setItems, total}: ICartItemsProps) {
 interface ICartItemsProps {
 	items: ICartItem[];
 	setItems: Dispatch<SetStateAction<ICartItem[]>>;
-	total: {qty: number, price: string}
+	total: { qty: number, price: string }
 }

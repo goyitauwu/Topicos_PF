@@ -63,8 +63,6 @@ export default function Registro({ mainMenu, footerMenu, basicSettings }: InferG
           document.getElementById('respuesta').innerHTML = "CORREO YA REGISTRADO CON OTRO USUARIO";
         } else if (response.status === 200) {
           location.replace('http://localhost:3000/login');
-        } else {
-
         }
       })
     } catch (error) {
